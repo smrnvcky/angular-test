@@ -33,13 +33,16 @@ import { Router } from '@angular/router';
             required
           />
         </div>
-        <button
-          class="disabled:bg-gray-600 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 rounded transition-all cursor-pointer px-4 py-2 text-white"
-          type="submit"
-          [disabled]="isLoading()"
-        >
-          Войти
-        </button>
+        <div class="flex items-center gap-5">
+          <button
+            class="disabled:bg-gray-600 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 rounded transition-all cursor-pointer px-4 py-2 text-white"
+            type="submit"
+            [disabled]="isLoading()"
+          >
+            Войти
+          </button>
+          <a href="/register" class="underline text-blue-600">Регистрация</a>
+        </div>
         <div class="text-red-600">
           {{ errorMessage() }}
         </div>

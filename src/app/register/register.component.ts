@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-register',
   imports: [ReactiveFormsModule],
   template: `
-    <div class="max-w-[600px] mx-auto">
+    <div class="max-w-[600px] mx-auto py-5">
       <h1 class="font-bold text-3xl mb-5">Регистрация</h1>
       <form
         [formGroup]="registerForm"
@@ -37,17 +37,25 @@ import { Router } from '@angular/router';
             required
           />
         </div>
-        <button
-          [disabled]="isLoading()"
-          class="disabled:bg-gray-600 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 rounded transition-all cursor-pointer px-4 py-2 text-white"
-          type="submit"
-        >
-          Войти
-        </button>
+        <div class="flex items-center gap-5">
+          <button
+            [disabled]="isLoading()"
+            class="disabled:bg-gray-600 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 rounded transition-all cursor-pointer px-4 py-2 text-white"
+            type="submit"
+          >
+            Войти
+          </button>
+          <a href="/login" class="underline text-blue-600">Вход</a>
+        </div>
         <div class="text-red-600">
           {{ errorMessage() }}
         </div>
       </form>
+      <div>
+        <p>Данные для регистрации</p>
+        <p>Логин: janet.weaver&commat;reqres.in</p>
+        <p>Пароль любой</p>
+      </div>
     </div>
   `,
 })
