@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   imports: [ReactiveFormsModule],
   template: `
-    <div class="max-w-[600px] mx-auto space-y-5">
+    <div class="max-w-[600px] mx-auto space-y-5 py-5">
       <h1 class="font-bold text-3xl">Вход</h1>
       <form class="space-y-3" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div>
@@ -44,6 +44,11 @@ import { Router } from '@angular/router';
           {{ errorMessage() }}
         </div>
       </form>
+      <div>
+        <p>Данные для входа</p>
+        <p>Логин: janet.weaver&commat;reqres.in</p>
+        <p>Пароль любой</p>
+      </div>
     </div>
   `,
 })

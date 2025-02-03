@@ -1,14 +1,26 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list',
   imports: [],
   template: `
-    <div class="mx-auto px-4 max-w-[1000px] my-5 space-y-10">
+    <div class="mx-auto px-4 max-w-[1000px] my-5 space-y-[100px]">
       <div>
-        <h1 class="text-3xl font-bold mb-4">Пользователи</h1>
+        <h1 class="text-3xl font-bold mb-6">Пользователи</h1>
         <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-300 text-left">
+              <th class="p-2">Аватар</th>
+              <th class="p-2">Имя</th>
+              <th class="p-2">Фамилия</th>
+              <th class="p-2">Почта</th>
+              <th class="p-2"></th>
+              <th class="p-2"></th>
+            </tr>
+          </thead>
           <tbody>
             @for (user of users(); track user.id) {
             <tr class="border-b border-gray-300">
@@ -25,14 +37,14 @@ import { HttpClient } from '@angular/common/http';
               <td class="p-2">
                 <a
                   [href]="'/users/' + user.id"
-                  class="bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded text-white"
+                  class="bg-blue-600 hover:bg-blue-700 transition-all px-5 py-2 rounded text-white"
                   >Подробнее</a
                 >
               </td>
               <td class="p-2">
                 <a
                   (click)="deleteUser(user.id)"
-                  class="bg-red-500 hover:bg-red-600 px-5 py-2 rounded text-white cursor-pointer"
+                  class="bg-red-600 hover:bg-red-700 px-5 py-2 transition-all rounded text-white cursor-pointer"
                   >X</a
                 >
               </td>
@@ -42,8 +54,16 @@ import { HttpClient } from '@angular/common/http';
         </table>
       </div>
       <div>
-        <h1 class="text-3xl font-bold mb-4">Ресуры</h1>
+        <h1 class="text-3xl font-bold mb-6">Ресурcы</h1>
         <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-300 text-left">
+              <th class="p-2">Цвет</th>
+              <th class="p-2">Название</th>
+              <th class="p-2">Pantone</th>
+              <th class="p-2">Год</th>
+            </tr>
+          </thead>
           <tbody>
             @for (resource of resources(); track resource.id) {
             <tr class="border-b border-gray-300">
@@ -64,6 +84,12 @@ import { HttpClient } from '@angular/common/http';
             }
           </tbody>
         </table>
+        <button
+          class="mt-5 bg-red-600 hover:bg-red-700 px-5 py-2 transition-all rounded text-white cursor-pointer"
+          (click)="logout()"
+        >
+          Выйти
+        </button>
       </div>
     </div>
   `,
@@ -72,6 +98,8 @@ export class ListComponent implements OnInit {
   http = inject(HttpClient);
   users = signal<any[]>([]);
   resources = signal<any[]>([]);
+  cookieService = inject(CookieService);
+  router = inject(Router);
 
   ngOnInit(): void {
     this.getUsers();
@@ -102,12 +130,17 @@ export class ListComponent implements OnInit {
       this.http.delete(`https://reqres.in/api/users/${userId}`).subscribe({
         next: () => {
           this.users.set(this.users().filter((user) => user.id !== userId));
-          alert('Удаление прошло успешно!');
+          alert('Пользователь успешно удален!');
         },
         error: () => {
           alert('Произошла ошибка при удалении.');
         },
       });
     }
+  }
+
+  logout() {
+    this.cookieService.delete('token');
+    return this.router.navigate(['/login']);
   }
 }
